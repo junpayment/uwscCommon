@@ -1,0 +1,125 @@
+
+class common
+
+	dim wName	// ウィンドウ名
+	dim modX
+	dim modY
+
+	// 初期化
+	procedure init(name)
+		this.wName = name
+		// 起動しているウィンドウ取得
+		gid = GETID(this.wName);
+		ifb gid<0
+		  MSGBOX("ERROR Fail GETID" + "<#CR>" + "ウインドウが見えないので終了。")
+		  exitexit
+		endif
+
+		// Flashのハンドル取得
+		gHnd = GETCTLHND(gid, "MacromediaFlashPlayerActiveX") //IE10
+		if gHnd=0
+		  gHnd = GETCTLHND(gid,"Internet Explorer_Server") //IE11-
+		  print "id"
+		endif 
+		 
+		ifb gHnd=0
+		  gHnd = GETCTLHND(gid, "Chrome_RenderWidgetHostHWND") // Chrome
+		  print "chrome"
+		endif
+		 
+		ifb gHnd=0 
+		  gHnd = GETCTLHND(gid, "MozillaWindowClass")  // Firefox
+		  ifb gHnd=0
+		    gHnd = GETCTLHND(gid, "MozillaContentWindowClass")  // Firefox?
+		    print "firefox"
+		  endif
+		endif
+		 
+		ifb gHnd=0
+		  whnd = GETCTLHND( gid, "NativeWindowClass")  // その他はあてずっぽ 
+		  gHnd = whnd
+		  num = 1
+		  while whnd
+		    gHnd = whnd
+		    whnd = GETCTLHND( gid, "NativeWindowClass", num ) 
+		    num = num +1
+		  wend
+		endif
+		 
+		ifb gHnd=0
+		  gHnd = IDTOHND( gid )  // なかったらブラウザ全体
+		endif
+
+		PRINT gHnd
+
+		print STATUS(gid, ST_X)
+		print STATUS(gid, ST_Y)
+
+		fukidasi("hoge", STATUS(gid, ST_X), STATUS(gid, ST_Y))
+		this.modX = STATUS(gid, ST_X)
+		this.modY = STATUS(gid, ST_Y)
+
+		// バックグラウンドで動かす
+		MOUSEORG( gHnd, MORG_DIRECT, MORG_BACK )
+	fend
+
+	// 画像検索
+	procedure serachImg(img, time)
+		dim list[1]
+		if VAR_ARRAY = vartype(img)
+			list = img
+		else
+			list[0] = img
+		endif
+		dim len = length(list)
+		
+		While true
+			for idx = 0 to len-1
+				dim path = list[idx]
+				
+				PRINT "search" + img
+				if CHKIMG(img) then
+					break 2
+				Endif
+			next
+			SLEEP(0.1)
+		Wend
+		SLEEP(time)
+	fend
+
+	// 画像検索
+	procedure serachImgClick(img, time, x, y)
+		dim list[1]
+		if VAR_ARRAY = vartype(img)
+			list = img
+		else
+			list[0] = img
+		endif
+		dim len = length(list)
+
+		While true
+			PRINT "search" + img
+			BTN(LEFT,CLICK,x,y)
+			for idx = 0 to len-1
+				dim path = list[idx]
+				
+				PRINT "search" + img
+				if CHKIMG(img) then
+					break 2
+				Endif
+			next
+			SLEEP(0.1)
+		Wend
+		SLEEP(time)
+	fend
+
+	// クリック
+	procedure clickIt(x, y, str, time)
+		name = str
+		BTN(LEFT,CLICK,x,y)
+		fukidasi(str, modX + x, modY + y)
+		SLEEP(time)
+	fend
+
+endclass
+
