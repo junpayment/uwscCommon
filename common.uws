@@ -1,9 +1,16 @@
 
 class common
 
+	public timeoutFlg = false
+
 	dim wName	// ウィンドウ名
 	dim modX
 	dim modY
+	dim stamp = 0	// タイムアウト用変数
+	dim sCnt  = 0
+
+	const TIMEOUT = 7200	// タイムアウト
+	const SAFECNT = 5	// タイムアウト
 
 	// 初期化
 	procedure init(name)
@@ -64,7 +71,46 @@ class common
 	fend
 
 	// 画像検索
+	function serachImgCnt(img, cnt)
+
+		this.initCnt()
+
+		dim res = false
+		dim list[1]
+		if VAR_ARRAY = vartype(img)
+			list = img
+		else
+			list[0] = img
+		endif
+		dim len = length(list)
+		
+		While cnt > 0
+			cnt = cnt - 1
+			for idx = 0 to len-1
+				dim path = list[idx]
+				PRINT "search" + img
+				if CHKIMG(img) then
+					PRINT "hakkenn!"
+					res = true
+					break 2
+				Endif
+			next
+
+			// タイムアウト判定
+			if this.sleepAndCnt(1) = false then
+				this.timeoutFlg = true
+
+				break
+			endif
+		Wend
+		result = res
+	fend
+
+	// 画像検索
 	procedure serachImg(img, time)
+
+		this.initCnt()
+
 		dim list[1]
 		if VAR_ARRAY = vartype(img)
 			list = img
@@ -82,13 +128,26 @@ class common
 					break 2
 				Endif
 			next
-			SLEEP(0.1)
+
+			// タイムアウト判定
+			if this.sleepAndCnt(1) = false then
+				this.timeoutFlg = true
+
+				break
+			endif
 		Wend
-		SLEEP(time)
+
+		// タイムアウト判定
+		if this.sleepAndCnt(time) = false then
+			this.timeoutFlg = true
+		endif
 	fend
 
 	// 画像検索
 	procedure serachImgClick(img, time, x, y)
+
+		this.initCnt()
+
 		dim list[1]
 		if VAR_ARRAY = vartype(img)
 			list = img
@@ -108,18 +167,62 @@ class common
 					break 2
 				Endif
 			next
-			SLEEP(0.1)
+
+			// タイムアウト判定
+			if this.sleepAndCnt(1) = false then
+				this.timeoutFlg = true
+
+				break
+			endif
 		Wend
-		SLEEP(time)
+
+		// タイムアウト判定
+		if this.sleepAndCnt(time) = false then
+			this.timeoutFlg = true
+		endif
 	fend
 
 	// クリック
 	procedure clickIt(x, y, str, time)
+		this.initCnt()
+
 		name = str
 		BTN(LEFT,CLICK,x,y)
 		fukidasi(str, modX + x, modY + y)
+
+		// タイムアウト判定
+		if this.sleepAndCnt(time) = false then
+			this.timeoutFlg = true
+		endif
+	fend
+
+	// タイムアウト初期化
+	procedure initCnt()
+		this.timeoutFlg = false
+		this.stamp = gettime()
+	fend
+
+	// スリープ
+	// タイムアウトならfalse
+	function sleepAndCnt(time)
 		SLEEP(time)
+		if (gettime() - this.stamp) > this.TIMEOUT then
+			// 安全帯
+			this.sCnt = this.sCnt + 1
+			if this.sCnt > this.SAFECNT then
+				print "safe exit!!!"
+				exitexit
+			endif
+
+			result = false
+		endif
+		result = true
+	fend
+
+	// ページリロード
+	procedure reload()
+		BTN(LEFT,CLICK,10,700)
+		kbd(VK_F5, CLICK, 50)
 	fend
 
 endclass
-
