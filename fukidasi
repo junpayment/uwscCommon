@@ -1,0 +1,47 @@
+PRINT "exec"
+
+// かんぱにを起動しているウィンドウ取得
+gid = GETID("かんぱに☆ガールズ");
+ifb gid<0
+  MSGBOX("ERROR Fail GETID" + "<#CR>" + "ウインドウが見えないので終了。")
+  exitexit
+endif
+
+// Flashのハンドル取得
+gHnd = GETCTLHND(gid, "MacromediaFlashPlayerActiveX") //IE10
+if gHnd=0
+  gHnd = GETCTLHND(gid,"Internet Explorer_Server") //IE11-
+endif 
+ 
+ifb gHnd=0
+  gHnd = GETCTLHND(gid, "Chrome_RenderWidgetHostHWND") // Chrome
+endif
+ 
+ifb gHnd=0 
+  gHnd = GETCTLHND(gid, "MozillaWindowClass")  // Firefox
+  ifb gHnd=0
+    gHnd = GETCTLHND(gid, "MozillaContentWindowClass")  // Firefox?
+  endif
+endif
+ 
+ifb gHnd=0
+  whnd = GETCTLHND( gid, "NativeWindowClass")  // その他はあてずっぽ 
+  gHnd = whnd
+  num = 1
+  while whnd
+    gHnd = whnd
+    whnd = GETCTLHND( gid, "NativeWindowClass", num ) 
+    num = num +1
+  wend
+endif
+ 
+ifb gHnd=0
+  gHnd = IDTOHND( gid )  // なかったらブラウザ全体
+endif
+
+// バックグラウンドで動かす
+MOUSEORG( gHnd, 0, MORG_BACK )
+
+// 吹き出し
+fukidasi( "test", 0, 0, 3 )
+

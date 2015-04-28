@@ -1,0 +1,10 @@
+	// ƒNƒŠƒAŒã‚Ì‰æ‘œ‡A
+	While true
+		PRINT "loop3"
+		if CHKIMG("img\clear2.bmp") then
+			break
+		Endif
+		SLEEP(1)
+	Wend
+	BTN(LEFT,CLICK,3325,638,499)	// skip
+

@@ -1,0 +1,157 @@
+PRINT "exec"
+
+// かんぱにを起動しているウィンドウ取得
+gid = GETID("かんぱに☆ガールズ");
+ifb gid<0
+  MSGBOX("ERROR Fail GETID" + "<#CR>" + "ウインドウが見えないので終了。")
+  exitexit
+endif
+
+// Flashのハンドル取得
+gHnd = GETCTLHND(gid, "MacromediaFlashPlayerActiveX") //IE10
+if gHnd=0
+  gHnd = GETCTLHND(gid,"Internet Explorer_Server") //IE11-
+  print "id"
+endif 
+ 
+ifb gHnd=0
+  gHnd = GETCTLHND(gid, "Chrome_RenderWidgetHostHWND") // Chrome
+  print "chrome"
+endif
+ 
+ifb gHnd=0 
+  gHnd = GETCTLHND(gid, "MozillaWindowClass")  // Firefox
+  ifb gHnd=0
+    gHnd = GETCTLHND(gid, "MozillaContentWindowClass")  // Firefox?
+    print "firefox"
+  endif
+endif
+ 
+ifb gHnd=0
+  whnd = GETCTLHND( gid, "NativeWindowClass")  // その他はあてずっぽ 
+  gHnd = whnd
+  num = 1
+  while whnd
+    gHnd = whnd
+    whnd = GETCTLHND( gid, "NativeWindowClass", num ) 
+    num = num +1
+  wend
+endif
+ 
+ifb gHnd=0
+  gHnd = IDTOHND( gid )  // なかったらブラウザ全体
+endif
+
+PRINT gHnd
+
+print STATUS(gid, ST_X)
+print STATUS(gid, ST_Y)
+
+fukidasi("hoge", STATUS(gid, ST_X), STATUS(gid, ST_Y))
+modX = STATUS(gid, ST_X)
+modY =STATUS(gid, ST_Y)
+
+// バックグラウンドで動かす
+//MOUSEORG( gHnd, 0, MORG_BACK )
+MOUSEORG( gHnd, MORG_DIRECT, MORG_BACK )
+
+// ループで処理
+While true
+
+	x = 1400
+	y = 632
+	// マイページの音声ボタン探す
+	While true
+		PRINT "loop1"
+		BTN(LEFT,CLICK,x,y)
+		if CHKIMG("img\my.bmp") then
+			break
+		Endif
+		SLEEP(1)
+	Wend
+	SLEEP(2)
+
+	x = 735
+	y = 516
+	name = "クエスト"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+	SLEEP(5)
+
+	x = 796
+	y = 402
+	name = "イベント"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+	SLEEP(1)
+
+	x = 654
+	y = 350
+	name = "金曜日クエスト"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+	SLEEP(1)
+
+	x = 645
+	y = 361
+	name = "上級"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+	SLEEP(1)
+
+	x = 1319
+	y = 622
+	name = "受注確認"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+	SLEEP(1)
+
+	x = 876
+	y = 579
+	name = "受注確定"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+	SLEEP(10)
+
+	x = 1400
+	y = 632
+	name = "skip"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+	SLEEP(1)
+
+	// クリア後の画像①
+	While true
+		PRINT "loop2"
+		if CHKIMG("img\clear_event_fri_3_1.bmp") then
+			break
+		Endif
+		SLEEP(1)
+	Wend
+	SLEEP(2)
+
+	x = 1400
+	y = 632
+	name = "クリア後①"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+
+	// クリア後の画像②
+	While true
+		PRINT "loop3"
+		if CHKIMG("img\clear_event_fri_3_2.bmp") then
+			break
+		Endif
+		SLEEP(1)
+	Wend
+	SLEEP(2)
+	x = 1400
+	y = 632
+	name = "クリア後②"
+	BTN(LEFT,CLICK,x,y)
+	fukidasi(name, modX + x, modY + y)
+
+
+Wend
+
+PRINT "end"

@@ -1,0 +1,101 @@
+PRINT "exec"
+
+call common.uws
+
+// 初期化
+common.init("かんぱに☆ガールズ")
+
+
+// ループで処理
+While true
+
+	x = 1400
+	y = 632
+	common.serachImgClick("img\my.bmp", 2, x, y)
+
+	x = 735
+	y = 516
+	name = "クエスト"
+	common.clickIt(x, y, name, 5)
+
+	x = 654
+	y = 601
+	name = "第7章"
+	common.clickIt(x, y, name, 1)
+
+	x = 646
+	y = 452
+	name = "Quest6"
+	common.clickIt(x, y, name, 1)
+
+	x = 1319
+	y = 622
+	name = "受注確認"
+	common.clickIt(x, y, name, 1)
+
+	x = 876
+	y = 579
+	name = "受注確定"
+	common.clickIt(x, y, name, 1)
+
+	// 食糧が足りない場合、回復するまで待機
+	if common.serachImgCnt("img\fairy.bmp", 10) then
+		x = 952
+		y = 575
+		name = "閉じる"
+		common.clickIt(x, y, name, 1)
+
+		x = 1058
+		y = 588
+		name = "キャンセル"
+		common.clickIt(x, y, name, 1)
+
+		x = 525
+		y = 217
+		name = "マイペへ"
+		common.clickIt(x, y, name, 5)
+
+		while true
+			x = 735
+			y = 516
+			name = "クエスト"
+			common.clickIt(x, y, name, 5)
+
+			x = 525
+			y = 217
+			name = "マイペへ"
+			common.clickIt(x, y, name, 5)
+
+			// ゲージmaxならクエスト開始
+			if common.serachImgCnt("img\max_gauge.bmp", 1) then
+				continue 2
+			endif
+
+			sleep(random(3600))
+		wend
+	endif
+	
+	x = 1400
+	y = 632
+	name = "skip"
+	common.clickIt(x, y, name, 1)
+
+	// クリア後の画像①
+	common.serachImg("img\clear1_1.bmp", 2)
+
+	x = 1400
+	y = 632
+	name = "クリア後①"
+	common.clickIt(x, y, name, 1)
+
+	// クリア後の画像②
+	common.serachImg("img\clear2_1_a.bmp", 2)
+
+	x = 1400
+	y = 632
+	name = "クリア後②"
+	common.clickIt(x, y, name, 1)
+
+Wend
+
+PRINT "end"

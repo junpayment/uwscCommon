@@ -1,0 +1,24 @@
+PRINT "exec"
+
+// かんぱにを起動しているウィンドウ取得
+gid = GETID("かんぱに☆ガールズ");
+ifb gid<0
+  MSGBOX("ERROR Fail GETID" + "<#CR>" + "ウインドウが見えないので終了。")
+  exitexit
+endif
+
+// バックグラウンドで動かす
+MOUSEORG( gid, 1, MORG_FORE )
+
+OPTION SHORTCIRCUIT
+
+chkimg("img\left.bmp")
+print G_IMG_X
+print G_IMG_Y
+
+mmv(G_IMG_X, G_IMG_Y)
+
+while true
+	sleep(1)
+wend
+
