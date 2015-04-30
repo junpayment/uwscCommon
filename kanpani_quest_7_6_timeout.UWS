@@ -4,6 +4,8 @@ call common.uws
 
 // トップページ→マイページ→ガチャあればひく→クエスト周回
 while true
+	common.log("initializing..")
+
 	// 初期化
 	common.init("かんぱに☆ガールズ")
 
@@ -15,6 +17,7 @@ while true
 	common.clickIt(x, y, name, 10)
 
 	if common.timeoutFlg = true then
+		common.log("timeout:gamestart")
 		common.reload()
 		sleep(random(3600))
 		continue
@@ -32,6 +35,7 @@ while true
 		common.clickIt(x, y, name, 1)
 	endif
 	if common.timeoutFlg = true then
+		common.log("timeout:daily_gacha")
 		common.reload()
 		sleep(random(3600))
 		continue
@@ -39,6 +43,7 @@ while true
 
 	// クエスト周回ループ
 	while true
+		common.log("start quest")
 
 		x = 1400
 		y = 632
@@ -194,9 +199,12 @@ while true
 		if common.timeoutFlg = true then
 			break
 		endif
+
+		common.log("end quest")
 	wend
 
 	// タイムアウトしたらリロード
+	common.log("timeout:gloabal")
 	common.reload()
 	sleep(random(3600))
 wend

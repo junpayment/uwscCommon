@@ -11,6 +11,7 @@ class common
 
 	const TIMEOUT = 7200	// タイムアウト
 	const SAFECNT = 5	// タイムアウト
+	const LOGFILE = "log\log.txt"
 
 	// 初期化
 	procedure init(name)
@@ -223,6 +224,15 @@ class common
 	procedure reload()
 		BTN(LEFT,CLICK,10,700)
 		kbd(VK_F5, CLICK, 50)
+	fend
+
+	// ロギング
+	procedure log(str)
+		fid = fopen(this.LOGFILE, F_READ OR F_WRITE)
+		gettime()
+		date = "" + G_TIME_YY4 + "/" + G_TIME_MM2 + "/" + G_TIME_DD2 + " " + G_TIME_HH2 + ":" + G_TIME_NN2 + ":" + G_TIME_SS2
+		fput(fid, date + " " + str, 0)
+		fclose(fid)
 	fend
 
 endclass
