@@ -75,13 +75,13 @@ while true
 			common.clickIt(x, y, name, 5)
 
 			x = 640
-			y = 682
-			name = "第7章"
+			y = 575
+			name = "第8章"
 			common.clickIt(x, y, name, 1)
 
 			x = 646
-			y = 452
-			name = "Quest6"
+			y = 358
+			name = "Quest8"
 			common.clickIt(x, y, name, 1)
 
 			x = 1319
@@ -204,7 +204,7 @@ while true
 		common.clickIt(x, y, name, 1)
 
 		// クリア後の画像①
-		common.serachImg("img\clear1_1.bmp", 2)
+		common.serachImg("img\clear8_8.bmp", 2)
 
 		x = 1400
 		y = 632
@@ -212,7 +212,7 @@ while true
 		common.clickIt(x, y, name, 1)
 
 		// クリア後の画像②
-		common.serachImg("img\clear2_1_a.bmp", 2)
+		common.serachImg("img\clear8_8_a.bmp", 2)
 
 		x = 1400
 		y = 632

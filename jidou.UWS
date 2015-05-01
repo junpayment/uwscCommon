@@ -1,0 +1,20 @@
+call common.uws
+common.init("Ç©ÇÒÇœÇ…ÅôÉKÅ[ÉãÉY")
+
+x = 717
+y = 364
+div = 762 - 717
+mx = 6
+my = 7
+
+for cy=0 to my-1
+	for cx=0 to mx-1
+		common.clickIt(x+cx*div,y+cy*div,"hoge",0.1)
+	next
+next
+
+//while true
+//	common.clickIt(888,625,"hoge",0)
+//	common.clickIt(888,664,"hoge",0)
+//	sleep(1)
+//wend
