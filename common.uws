@@ -197,6 +197,35 @@ class common
 		endif
 	fend
 
+	// クリック(ダウンアップ挙動）
+	procedure downUpIt(x, y, str, time)
+		this.initCnt()
+
+		name = str
+		BTN(LEFT,DOWN,x,y)
+		BTN(LEFT,UP,x,y)
+		fukidasi(str, modX + x, modY + y)
+
+		// タイムアウト判定
+		if this.sleepAndCnt(time) = false then
+			this.timeoutFlg = true
+		endif
+	fend
+
+	// マウス移動
+	procedure onIt(x, y, str, time)
+		this.initCnt()
+
+		name = str
+		mmv(x,y)
+		fukidasi(str, modX + x, modY + y)
+
+		// タイムアウト判定
+		if this.sleepAndCnt(time) = false then
+			this.timeoutFlg = true
+		endif
+	fend
+
 	// タイムアウト初期化
 	procedure initCnt()
 		this.timeoutFlg = false
