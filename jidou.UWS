@@ -9,7 +9,7 @@ my = 7
 
 for cy=0 to my-1
 	for cx=0 to mx-1
-		common.clickIt(x+cx*div,y+cy*div,"hoge",0.1)
+		common.clickIt(x+cx*div,y+cy*div,"hoge",0.5)
 	next
 next
 

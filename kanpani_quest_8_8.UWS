@@ -19,7 +19,7 @@ while true
 	if common.timeoutFlg = true then
 		common.log("timeout:gamestart")
 		common.reload()
-		sleep(random(3600))
+		sleep(random(3600)+600)
 		continue
 	endif
 
@@ -38,7 +38,7 @@ while true
 	if common.timeoutFlg = true then
 		common.log("timeout:daily_gacha")
 		common.reload()
-		sleep(random(3600))
+		sleep(random(3600)+600)
 		continue
 	endif
 
@@ -55,15 +55,17 @@ while true
 	if common.timeoutFlg = true then
 		common.log("timeout:daily_gacha")
 		common.reload()
-		sleep(random(3600))
+		sleep(random(3600)+600)
 		continue
 	endif
 
 	// クエスト周回ループ
 	while true
+		common.log("start quest")
 
 		// 再開処理
 		if restartFlg = false then
+			common.log("chose quest")
 
 			x = 1400
 			y = 632
@@ -100,6 +102,8 @@ while true
 
 			// キャラ満タンなら売却
 			if common.serachImgCnt("img\mantan.bmp", 10) then
+				common.log("mantan")
+
 				x = 1009
 				y = 517
 				name = "解雇"
@@ -155,6 +159,8 @@ while true
 
 			// 食糧が足りない場合、回復するまで待機
 			if common.serachImgCnt("img\fairy.bmp", 10) then
+				common.log("hungry")
+
 				x = 952
 				y = 575
 				name = "閉じる"
@@ -189,7 +195,7 @@ while true
 						break 2
 					endif
 
-					sleep(random(3600))
+					sleep(random(3600)+600)
 				wend
 			endif
 			if common.timeoutFlg = true then
@@ -224,11 +230,12 @@ while true
 
 		common.log("end quest")
 	wend
+	restartFlg = false
 
 	// タイムアウトしたらリロード
 	common.log("timeout:gloabal")
 	common.reload()
-	sleep(random(3600))
+	sleep(random(3600)+600)
 wend
 
 PRINT "end"
