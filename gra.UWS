@@ -1,10 +1,8 @@
-ACW(GETID("かんぱに☆ガールズ - オンラインゲーム - DMM.com - Mozilla Firefox","MozillaWindowClass"),1912,-8,1936,1096,0)
+call common.uws
+common.init("かんぱに☆ガールズ")
+
 while true
-	BTN(LEFT,DOWN,2799,734,78)
-	BTN(LEFT,UP,2801,734,10)
-	BTN(LEFT,CLICK,2808,665,94)
-	BTN(LEFT,CLICK,2820,632,109)
-	BTN(LEFT,DOWN,2824,658,63)
-	BTN(LEFT,UP,2824,658,63)
-	sleep(0.5)
+	common.clickIt(907,736,"hoge",0.3)
+	common.clickIt(883,656,"hoge",0.3)
+	common.clickIt(888,626,"hoge",0.3)
 wend

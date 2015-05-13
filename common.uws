@@ -241,10 +241,12 @@ class common
 			this.sCnt = this.sCnt + 1
 			if this.sCnt > this.SAFECNT then
 				print "safe exit!!!"
+				this.log("safe exit!!!!!")
 				exitexit
 			endif
 
 			result = false
+			exit
 		endif
 		result = true
 	fend

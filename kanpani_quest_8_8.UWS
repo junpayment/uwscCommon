@@ -30,10 +30,29 @@ while true
 		name = "採用する"
 		common.clickIt(x, y, name, 10)
 		
+		x = 1400
+		y = 632
+		common.serachImgClick("img\daily_gacha_yeah.bmp", 1, x, y)
+
+		if common.timeoutFlg = true then
+			common.log("timeout:daily_gacha_search_yeah")
+			common.reload()
+			sleep(random(3600)+600)
+			continue
+		endif 
+		
 		x = 670
 		y = 499
 		name = "カード選択"
 		common.clickIt(x, y, name, 1)
+		
+		x = 878
+		y = 677
+		name = "採用確定"
+		common.clickIt(x, y, name, 1)
+
+		// todo このあと、採用確定画面の処理を書くこと。
+
 	endif
 	if common.timeoutFlg = true then
 		common.log("timeout:daily_gacha")
@@ -65,11 +84,18 @@ while true
 
 		// 再開処理
 		if restartFlg = false then
-			common.log("chose quest")
+			common.log("choose quest")
 
 			x = 1400
 			y = 632
 			common.serachImgClick("img\my.bmp", 2, x, y)
+
+			if common.timeoutFlg = true then
+				common.log("timeout:my")
+				common.reload()
+				sleep(random(3600)+600)
+				continue
+			endif 
 
 			x = 735
 			y = 516
@@ -99,6 +125,8 @@ while true
 			if common.timeoutFlg = true then
 				break
 			endif
+
+			common.log("check mantan")
 
 			// キャラ満タンなら売却
 			if common.serachImgCnt("img\mantan.bmp", 10) then
@@ -156,6 +184,8 @@ while true
 			if common.timeoutFlg = true then
 				break
 			endif
+
+			common.log("check syokuryou")
 
 			// 食糧が足りない場合、回復するまで待機
 			if common.serachImgCnt("img\fairy.bmp", 10) then

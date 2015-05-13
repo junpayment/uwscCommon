@@ -1,0 +1,157 @@
+PRINT "exec"
+
+call common.uws
+
+// トップページ→マイページ→ガチャあればひく→クエスト周回
+while true
+	common.log("initializing..")
+
+	// 初期化
+	common.init("かんぱに☆ガールズ")
+
+	common.serachImg("img\title.bmp", 1)
+
+	x = 686
+	y = 336
+	name = "ゲームスタート"
+	common.clickIt(x, y, name, 5)
+
+	if common.timeoutFlg = true then
+		common.log("timeout:gamestart")
+		common.reload()
+		sleep(random(3600)+600)
+		continue
+	endif
+
+	// デイリーガチャ
+	if common.serachImgCnt("img\daily_gacha.bmp", 10) then
+		x = 734
+		y = 519
+		name = "採用する"
+		common.clickIt(x, y, name, 10)
+		
+		x = 670
+		y = 499
+		name = "カード選択"
+		common.clickIt(x, y, name, 1)
+	endif
+	if common.timeoutFlg = true then
+		common.log("timeout:daily_gacha")
+		common.reload()
+		sleep(random(3600)+600)
+		continue
+	endif
+
+	// クエスト再開
+	restartFlg = false
+	if common.serachImgCnt("img\restart.bmp", 3) then
+		restartFlg = true
+
+		x = 881
+		y = 567
+		name = "再開する"
+		common.clickIt(x, y, name, 10)
+	endif
+	if common.timeoutFlg = true then
+		common.log("timeout:daily_gacha")
+		common.reload()
+		sleep(random(3600)+600)
+		continue
+	endif
+
+	// クエスト周回ループ
+	while true
+		common.log("start quest")
+
+		// 再開処理
+		if restartFlg = false then
+			common.log("chose quest")
+
+			x = 1400
+			y = 632
+			common.serachImgClick("img\my.bmp", 2, x, y)
+
+			if common.timeoutFlg = true then
+				break
+			endif
+
+			x = 735
+			y = 516
+			name = "クエスト"
+			common.clickIt(x, y, name, 5)
+
+			x = 1137
+			y = 520
+			name = "夢幻の迷宮"
+			common.clickIt(x, y, name, 1)
+
+			x = 1319
+			y = 622
+			name = "受注確認"
+			common.clickIt(x, y, name, 1)
+
+			x = 876
+			y = 579
+			name = "受注確定"
+			common.clickIt(x, y, name, 1)
+
+		endif
+		restartFlg = false
+
+		common.serachImg("img\meikyu\start.bmp", 0.5)
+
+		x = 1400
+		y = 632
+		name = "skip"
+		common.clickIt(x, y, name, 1)
+
+		// 選択①
+		common.serachImg("img\meikyu\select1.bmp", 0.5)
+		common.clickIt(934, 474, "選択①", 1)
+
+		// 選択②
+		common.serachImg("img\meikyu\select2.bmp", 0.5)
+		common.clickIt(934, 474, "選択②", 1)
+
+		// 選択③
+		common.serachImg("img\meikyu\select3.bmp", 0.5)
+		common.clickIt(934, 501, "選択③", 1)
+
+		// 選択④
+		common.serachImg("img\meikyu\select4.bmp", 0.5)
+		common.clickIt(934, 451, "選択④", 1)
+
+		// 選択⑤
+		common.serachImg("img\meikyu\select5.bmp", 0.5)
+		common.clickIt(934, 451, "選択⑤", 1)
+
+		// クリア後の画像①
+		common.serachImg("img\meikyu\clear1.bmp", 2)
+
+		x = 1400
+		y = 632
+		name = "クリア後①"
+		common.clickIt(x, y, name, 1)
+
+		// クリア後の画像②
+		common.serachImg("img\meikyu\clear2.bmp", 2)
+
+		x = 1400
+		y = 632
+		name = "クリア後②"
+		common.clickIt(x, y, name, 1)
+		if common.timeoutFlg = true then
+			break
+		endif
+
+		common.log("end quest")
+	wend
+	restartFlg = false
+
+	// タイムアウトしたらリロード
+	common.log("timeout:gloabal")
+	common.reload()
+	sleep(random(3600)+600)
+wend
+
+PRINT "end"
