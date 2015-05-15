@@ -39,7 +39,7 @@ while true
 			common.reload()
 			sleep(random(3600)+600)
 			continue
-		endif 
+		endif
 		
 		x = 670
 		y = 499
@@ -48,10 +48,36 @@ while true
 		
 		x = 878
 		y = 677
-		name = "採用確定"
-		common.clickIt(x, y, name, 1)
+		name = "採用"
+		common.clickIt(x, y, name, 10)
 
-		// todo このあと、採用確定画面の処理を書くこと。
+		// 誓約書
+		common.serachImg("img\saiyoukakutei.bmp", 1)
+		if common.timeoutFlg = true then
+			common.log("timeout:daily_gacha_end")
+			common.reload()
+			sleep(random(3600)+600)
+			continue
+		endif
+
+		x = 878
+		y = 677
+		name = "誓約書"
+		common.clickIt(x, y, name, 5)
+
+		// 履歴書
+		common.serachImg("img\daily_gacha_end.bmp", 1)
+		if common.timeoutFlg = true then
+			common.log("timeout:daily_gacha_endend")
+			common.reload()
+			sleep(random(3600)+600)
+			continue
+		endif
+
+		x = 902
+		y = 665
+		name = "終了する"
+		common.clickIt(x, y, name, 1)
 
 	endif
 	if common.timeoutFlg = true then
