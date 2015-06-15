@@ -1,0 +1,297 @@
+PRINT "exec"
+
+call common.uws
+
+// トップページ→マイページ→ガチャあればひく→クエスト周回
+while true
+	common.log("initializing..")
+
+	// 初期化
+	common.init("かんぱに☆ガールズ")
+
+	common.serachImg("img\title.bmp", 10)
+
+	x = 686
+	y = 336
+	name = "ゲームスタート"
+	common.clickIt(x, y, name, 10)
+
+	if common.timeoutFlg = true then
+		common.log("timeout:gamestart")
+		common.reload()
+		sleep(random(3600)+600)
+		continue
+	endif
+
+	// デイリーガチャ
+	if common.serachImgCnt("img\daily_gacha.bmp", 10) then
+		x = 734
+		y = 519
+		name = "採用する"
+		common.clickIt(x, y, name, 10)
+		
+		x = 1400
+		y = 632
+		common.serachImgClick("img\daily_gacha_yeah.bmp", 1, x, y)
+
+		if common.timeoutFlg = true then
+			common.log("timeout:daily_gacha_search_yeah")
+			common.reload()
+			sleep(random(3600)+600)
+			continue
+		endif
+		
+		x = 670
+		y = 499
+		name = "カード選択"
+		common.clickIt(x, y, name, 1)
+		
+		x = 878
+		y = 677
+		name = "採用"
+		common.clickIt(x, y, name, 10)
+
+		// 誓約書
+		common.serachImg("img\saiyoukakutei.bmp", 1)
+		if common.timeoutFlg = true then
+			common.log("timeout:daily_gacha_end")
+			common.reload()
+			sleep(random(3600)+600)
+			continue
+		endif
+
+		x = 878
+		y = 677
+		name = "誓約書"
+		common.clickIt(x, y, name, 5)
+
+		// 履歴書
+		common.serachImg("img\daily_gacha_end.bmp", 1)
+		if common.timeoutFlg = true then
+			common.log("timeout:daily_gacha_endend")
+			common.reload()
+			sleep(random(3600)+600)
+			continue
+		endif
+
+		x = 902
+		y = 665
+		name = "終了する"
+		common.clickIt(x, y, name, 1)
+
+	endif
+	if common.timeoutFlg = true then
+		common.log("timeout:daily_gacha")
+		common.reload()
+		sleep(random(3600)+600)
+		continue
+	endif
+
+	// クエスト再開
+	restartFlg = false
+	if common.serachImgCnt("img\restart.bmp", 3) then
+		restartFlg = true
+
+		x = 881
+		y = 567
+		name = "再開する"
+		common.clickIt(x, y, name, 10)
+	endif
+	if common.timeoutFlg = true then
+		common.log("timeout:daily_gacha")
+		common.reload()
+		sleep(random(3600)+600)
+		continue
+	endif
+
+	// クエスト周回ループ
+	while true
+		common.log("start quest")
+
+		// 再開処理
+		if restartFlg = false then
+			common.log("choose quest")
+
+			x = 1400
+			y = 632
+			common.serachImgClick("img\my.bmp", 2, x, y)
+
+			if common.timeoutFlg = true then
+				common.log("timeout:my")
+				common.reload()
+				sleep(random(3600)+600)
+				continue
+			endif 
+
+			x = 735
+			y = 516
+			name = "クエスト"
+			common.clickIt(x, y, name, 5)
+
+			x = 640
+			y = 429
+			name = "第10章"
+			common.clickIt(x, y, name, 1)
+
+			x = 646
+			y = 358
+			name = "Quest10"
+			common.clickIt(x, y, name, 1)
+
+			x = 1319
+			y = 622
+			name = "受注確認"
+			common.clickIt(x, y, name, 1)
+
+			x = 876
+			y = 579
+			name = "受注確定"
+			common.clickIt(x, y, name, 1)
+
+			if common.timeoutFlg = true then
+				break
+			endif
+
+			common.log("check mantan")
+
+			// キャラ満タンなら売却
+			if common.serachImgCnt("img\mantan.bmp", 10) then
+				common.log("mantan")
+
+				x = 1009
+				y = 517
+				name = "解雇"
+				common.clickIt(x, y, name, 10)
+
+				x = 668
+				y = 298
+				name = "タブ選択"
+				common.clickIt(x, y, name, 1)
+
+				x = 661
+				y = 462
+				name = "入手順"
+				common.clickIt(x, y, name, 5)
+
+				x = 652
+				y = 742
+				name = "一括解雇"
+				common.clickIt(x, y, name, 1)
+
+				name = "キャラ"
+				common.clickIt(642, 338, name, 0.3)
+				common.clickIt(645, 390, name, 0.3)
+				common.clickIt(642, 444, name, 0.3)
+				common.clickIt(642, 495, name, 0.3)
+				common.clickIt(642, 549, name, 0.3)
+				common.clickIt(642, 600, name, 0.3)
+				common.clickIt(642, 650, name, 0.3)
+				common.clickIt(642, 710, name, 1)
+
+				x = 927
+				y = 730
+				name = "確認"
+				common.clickIt(x, y, name, 5)
+
+				x = 880
+				y = 738
+				name = "解雇！"
+				common.clickIt(x, y, name, 10)
+
+				x = 525
+				y = 217
+				name = "マイペへ"
+				common.clickIt(x, y, name, 5)
+
+				continue
+
+			endif
+
+			if common.timeoutFlg = true then
+				break
+			endif
+
+			common.log("check syokuryou")
+
+			// 食糧が足りない場合、回復するまで待機
+			if common.serachImgCnt("img\fairy.bmp", 10) then
+				common.log("hungry")
+
+				x = 952
+				y = 575
+				name = "閉じる"
+				common.clickIt(x, y, name, 1)
+
+				x = 1058
+				y = 588
+				name = "キャンセル"
+				common.clickIt(x, y, name, 1)
+
+				x = 525
+				y = 217
+				name = "マイペへ"
+				common.clickIt(x, y, name, 5)
+
+				while true
+					x = 735
+					y = 516
+					name = "クエスト"
+					common.clickIt(x, y, name, 5)
+
+					x = 525
+					y = 217
+					name = "マイペへ"
+					common.clickIt(x, y, name, 5)
+
+					// ゲージmaxならクエスト開始
+					if common.serachImgCnt("img\max_gauge.bmp", 1) then
+						continue 2
+					endif
+					if common.timeoutFlg = true then
+						break 2
+					endif
+
+					sleep(random(3600)+600)
+				wend
+			endif
+			if common.timeoutFlg = true then
+				break
+			endif
+		endif
+		restartFlg = false
+
+		x = 1400
+		y = 632
+		name = "skip"
+		common.clickIt(x, y, name, 1)
+
+		// クリア後の画像①
+		common.serachImg("img\clear10_10.bmp", 2)
+
+		x = 1400
+		y = 632
+		name = "クリア後①"
+		common.clickIt(x, y, name, 1)
+
+		// クリア後の画像②
+		common.serachImg("img\clear10_10_a.bmp", 2)
+
+		x = 1400
+		y = 632
+		name = "クリア後②"
+		common.clickIt(x, y, name, 1)
+		if common.timeoutFlg = true then
+			break
+		endif
+
+		common.log("end quest")
+	wend
+	restartFlg = false
+
+	// タイムアウトしたらリロード
+	common.log("timeout:gloabal")
+	common.reload()
+	sleep(random(3600)+600)
+wend
+
+PRINT "end"
