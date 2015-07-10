@@ -98,7 +98,7 @@ class common
 			next
 
 			// タイムアウト判定
-			if this.sleepAndCnt(1) = false then
+			if this.sleepAndCnt(0.1) = false then
 				this.timeoutFlg = true
 
 				break

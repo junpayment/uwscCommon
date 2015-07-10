@@ -155,7 +155,7 @@ while true
 			common.log("check mantan")
 
 			// キャラ満タンなら売却
-			if common.serachImgCnt("img\mantan.bmp", 10) then
+			if common.serachImgCnt("img\mantan.bmp", 50) then
 				common.log("mantan")
 
 				x = 1009
@@ -214,7 +214,7 @@ while true
 			common.log("check syokuryou")
 
 			// 食糧が足りない場合、回復するまで待機
-			if common.serachImgCnt("img\fairy.bmp", 10) then
+			if common.serachImgCnt("img\fairy.bmp", 50) then
 				common.log("hungry")
 
 				x = 952
