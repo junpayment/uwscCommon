@@ -129,7 +129,7 @@ while true
 			common.clickIt(x, y, name, 5)
 
 			x = 640
-			y = 429
+			y = 566
 			name = "ëÊ1èÕ"
 			common.clickIt(x, y, name, 1)
 
